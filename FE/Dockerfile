@@ -19,17 +19,20 @@ RUN npm install --legacy-peer-deps || (rm -f package-lock.json && npm install --
 COPY . .
 
 # Build Angular app for production
-RUN npm run build -- --configuration production
+RUN npm run build:prod
 
-# Production stage - Serve with nginx
-FROM nginx:alpine
+# Production stage - Serve static files
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Install serve package globally
+RUN npm install -g serve
 
 # Copy built files from builder stage
-COPY --from=builder /app/dist/waki-frontend/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/waki-frontend/browser ./dist
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 4200
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Serve static files on all interfaces
+CMD ["serve", "-s", "dist", "-l", "4200", "--no-clipboard", "--no-open"]
