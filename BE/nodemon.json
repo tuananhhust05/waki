@@ -1,0 +1,24 @@
+{
+  "watch": [
+    ".",
+    "modules"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "node_modules",
+    "*.test.js",
+    "*.spec.js",
+    ".git",
+    ".docker"
+  ],
+  "exec": "node server.js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 500,
+  "verbose": true,
+  "legacyWatch": true,
+  "polling": true,
+  "interval": 500
+}
+

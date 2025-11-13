@@ -1,0 +1,93 @@
+services:
+  # Single MongoDB database for all modules
+  waki-db:
+    image: mongo:7.0
+    container_name: waki-db
+    ports:
+      - "27020:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: waki_db
+    volumes:
+      - waki_data:/data/db
+    networks:
+      - waki-network
+
+  # Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: waki-elasticsearch
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - waki-network
+    restart: unless-stopped
+
+  # Backend - Single Node.js project with modules
+  backend:
+    build:
+      context: ./BE
+      dockerfile: Dockerfile
+    container_name: waki-backend
+    ports:
+      - "3301:3301"
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+      PORT: 3301
+      # Enable polling for file watching in Docker (required for volume mounts)
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: 500
+      WATCHPACK_POLLING: "true"
+      # Shared MongoDB database for all modules
+      DB_HOST: waki-db
+      DB_PORT: 27017
+      DB_USER: admin
+      DB_PASSWORD: admin123
+      DB_NAME: waki_db
+      # JWT Secrets for each module
+      FAMILY_WALLET_JWT_SECRET: family_wallet_secret
+      POS_JWT_SECRET: pos_secret
+      AI_JWT_SECRET: ai_secret
+      SCHOOL_JWT_SECRET: school_secret
+    depends_on:
+      - waki-db
+    networks:
+      - waki-network
+    volumes:
+      - ./BE:/app
+      - /app/node_modules
+    # Restart policy for development
+    restart: unless-stopped
+
+  # Frontend - Single Angular project with modules
+  # frontend:
+  #   build:
+  #     context: ./FE
+  #     dockerfile: Dockerfile
+  #   container_name: waki-frontend
+  #   ports:
+  #     - "4200:4200"
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - waki-network
+  #   volumes:
+  #     - ./FE:/app
+  #     - /app/node_modules
+
+networks:
+  waki-network:
+    driver: bridge
+
+volumes:
+  waki_data:
+  elasticsearch_data:

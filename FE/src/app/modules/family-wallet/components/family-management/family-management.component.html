@@ -1,0 +1,146 @@
+<div class="family-container">
+  <!-- Header -->
+  <header class="family-header">
+    <div class="header-content">
+      <h1 class="page-title">Family Management</h1>
+      <a routerLink="/family-wallet/dashboard" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5"></path>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back to Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="family-main">
+    <!-- Add Member Card -->
+    <div class="card add-member-card">
+      <div class="card-header">
+        <h2 class="card-title">Add Family Member</h2>
+      </div>
+      <div class="card-content">
+        <form (ngSubmit)="addMember()" #memberForm="ngForm">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              [(ngModel)]="newMember.full_name" 
+              name="full_name" 
+              required
+              placeholder="Enter full name">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input 
+              type="email" 
+              class="form-input" 
+              [(ngModel)]="newMember.email" 
+              name="email" 
+              required
+              placeholder="Enter email address">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input 
+              type="text" 
+              class="form-input" 
+              [(ngModel)]="newMember.phone" 
+              name="phone"
+              placeholder="Enter phone number">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Relationship</label>
+            <select class="form-input" [(ngModel)]="newMember.relationship" name="relationship">
+              <option value="child">Child</option>
+              <option value="spouse">Spouse</option>
+              <option value="member">Member</option>
+            </select>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="submit-btn" 
+            [disabled]="loading || !memberForm.form.valid">
+            <span *ngIf="!loading">Add Member</span>
+            <span *ngIf="loading">Adding...</span>
+          </button>
+        </form>
+        
+        <div *ngIf="message" class="alert alert-success">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <div>
+            <div>{{ message }}</div>
+            <div *ngIf="showPassword && newMemberPassword" class="password-display">
+              <div class="password-label">Login Credentials for Child Account:</div>
+              <div class="password-info">
+                <strong>Email:</strong> {{ newMemberEmail }}<br>
+                <strong>Password:</strong> {{ newMemberPassword }}
+              </div>
+              <div class="password-warning">⚠️ Default password is "child". Child can login using email and password "child" at /family-wallet/login</div>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="errorMessage" class="alert alert-error">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Family Members Card -->
+    <div class="card members-card">
+      <div class="card-header">
+        <h2 class="card-title">Family Members</h2>
+        <span class="member-count" *ngIf="family">{{ family.members?.length || 0 }} members</span>
+      </div>
+      <div class="card-content">
+        <div *ngIf="!family" class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Loading family information...</p>
+        </div>
+        
+        <div *ngIf="family && family.members && family.members.length === 0" class="empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <p>No family members yet</p>
+          <p class="empty-hint">Add your first family member to get started</p>
+        </div>
+        
+        <div *ngIf="family && family.members && family.members.length > 0" class="members-list">
+          <div class="member-item" *ngFor="let member of family.members">
+            <div class="member-avatar">
+              <span>{{ member.full_name?.charAt(0)?.toUpperCase() || 'M' }}</span>
+            </div>
+            <div class="member-info">
+              <div class="member-name">{{ member.full_name }}</div>
+              <div class="member-details">
+                <span class="member-email">{{ member.email }}</span>
+                <span class="member-badge" [class.role-parent]="member.role === 'parent'" [class.role-member]="member.role === 'member'">
+                  {{ member.role }}
+                </span>
+                <span class="member-relationship">{{ member.relationship }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,151 @@
+<div class="wallet-container">
+  <div class="wallet-header">
+    <h1>Wallet</h1>
+    <button class="btn btn-primary" (click)="showExpenseForm = !showExpenseForm" *ngIf="wallet && wallet.balance > 0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Create Expense
+    </button>
+  </div>
+
+  <div class="wallet-grid">
+    <!-- My Wallet Card -->
+    <div class="wallet-card">
+      <div class="card-header">
+        <h2>My Wallet</h2>
+      </div>
+      <div class="card-body" *ngIf="wallet">
+        <div class="balance-display">
+          <div class="balance-amount">{{ formatCurrency(wallet.balance, wallet.currency) }}</div>
+          <div class="balance-label">{{ wallet.currency }} Available</div>
+        </div>
+
+        <!-- Add Funds Form -->
+        <div class="form-section">
+          <h3>Add Funds</h3>
+          <div class="form-group">
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="amount"
+              placeholder="Amount"
+              min="0.01"
+              step="0.01"
+            />
+            <button class="btn btn-primary" (click)="addFunds()">Add</button>
+          </div>
+        </div>
+
+        <!-- Create Expense Form -->
+        <div class="form-section" *ngIf="showExpenseForm">
+          <h3>Create Expense</h3>
+          <div class="form-group">
+            <label>Amount (SAR)</label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="expenseAmount"
+              placeholder="0.00"
+              min="0.01"
+              step="0.01"
+              [max]="wallet.balance"
+            />
+          </div>
+          <div class="form-group">
+            <label>Merchant (Optional)</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="expenseMerchant"
+              placeholder="e.g., Starbucks"
+            />
+          </div>
+          <div class="form-group">
+            <label>Description (Optional)</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="expenseDescription"
+              placeholder="e.g., Coffee purchase"
+            />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" [(ngModel)]="expenseCategory">
+              <option value="expense">General Expense</option>
+              <option value="food">Food & Dining</option>
+              <option value="shopping">Shopping</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="transport">Transport</option>
+              <option value="education">Education</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" (click)="createExpense()" [disabled]="loading || !expenseAmount">
+              <span *ngIf="!loading">Create Expense</span>
+              <span *ngIf="loading">Processing...</span>
+            </button>
+            <button class="btn btn-secondary" (click)="showExpenseForm = false">Cancel</button>
+          </div>
+        </div>
+
+        <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+        <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      </div>
+    </div>
+
+    <!-- Family Wallets Card -->
+    <div class="wallet-card" *ngIf="familyWallets.length > 0">
+      <div class="card-header">
+        <h2>Family Wallets</h2>
+      </div>
+      <div class="card-body">
+        <div class="family-wallet-list">
+          <div class="family-wallet-item" *ngFor="let fw of familyWallets">
+            <div class="wallet-info">
+              <div class="wallet-name">{{ fw.full_name }}</div>
+              <div class="wallet-balance">{{ formatCurrency(fw.balance, fw.currency) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transactions History -->
+  <div class="transactions-section">
+    <div class="section-header">
+      <h2>Transaction History</h2>
+      <button class="btn-icon" (click)="showTransactions = !showTransactions">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="18 15 12 9 6 15" *ngIf="showTransactions"></polyline>
+          <polyline points="6 9 12 15 18 9" *ngIf="!showTransactions"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="transactions-list" *ngIf="showTransactions">
+      <div *ngIf="transactions.length === 0" class="empty-state">
+        <p>No transactions yet</p>
+      </div>
+      <div class="transaction-item" *ngFor="let transaction of transactions">
+        <div class="transaction-icon" [class.credit]="transaction.type === 'credit'" [class.debit]="transaction.type === 'debit'">
+          {{ getTransactionIcon(transaction.type) }}
+        </div>
+        <div class="transaction-details">
+          <div class="transaction-description">{{ transaction.description || transaction.category || 'Transaction' }}</div>
+          <div class="transaction-meta">
+            <span class="transaction-category">{{ transaction.category }}</span>
+            <span class="transaction-date">{{ formatDate(transaction.created_at) }}</span>
+          </div>
+        </div>
+        <div class="transaction-amount" [class.credit]="transaction.type === 'credit'" [class.debit]="transaction.type === 'debit'">
+          {{ transaction.type === 'credit' ? '+' : '-' }}{{ formatCurrency(abs(transaction.amount), wallet?.currency) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

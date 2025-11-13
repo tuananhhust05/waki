@@ -1,0 +1,27 @@
+<div class="layout-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">🏫</div>
+      <div class="brand-text">
+        <h2>School Hub</h2>
+        <p>Smart Management</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a
+        *ngFor="let item of sidebarItems"
+        class="nav-item"
+        routerLink="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="icon" [attr.data-icon]="item.icon"></span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="layout-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,95 @@
+<main class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section" aria-label="Hero section">
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to Waki Platform</h1>
+      <p class="hero-subtitle">Integrated smart management services platform for modern businesses and families</p>
+      <div class="hero-cta">
+        <button class="btn-primary" (click)="navigateToService('/family-wallet/login')">
+          Get Started
+          <app-icon name="arrow-right" [size]="20"></app-icon>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" aria-label="About Waki Platform">
+    <div class="section-container">
+      <h2 class="section-title">About Waki Platform</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p class="lead-text">
+            Waki Platform is a comprehensive suite of integrated management services designed to streamline operations, 
+            enhance productivity, and simplify complex workflows for businesses, families, and educational institutions.
+          </p>
+          <p>
+            Our platform combines cutting-edge technology with user-friendly interfaces to deliver powerful solutions 
+            that adapt to your unique needs. Whether you're managing finances, running a business, implementing AI solutions, 
+            or overseeing educational services, Waki provides the tools you need to succeed.
+          </p>
+          <p>
+            Built with security, scalability, and user experience in mind, Waki Platform ensures your data is protected 
+            while providing seamless access to all your management tools from a single, unified dashboard.
+          </p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item" *ngFor="let stat of stats">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" aria-label="Our Services">
+    <div class="section-container">
+      <h2 class="section-title">Our Services</h2>
+      <p class="section-description">Choose from our comprehensive range of management solutions</p>
+      <div class="services-grid">
+        <article class="service-card" *ngFor="let service of services" (click)="navigateToService(service.route)">
+          <div class="service-icon-wrapper">
+            <app-icon [name]="service.icon" [size]="48"></app-icon>
+          </div>
+          <h3 class="service-name">{{ service.name }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <div class="service-action">
+            <span>Learn more</span>
+            <app-icon name="arrow-right" [size]="16"></app-icon>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" aria-label="Platform Features">
+    <div class="section-container">
+      <h2 class="section-title">Why Choose Waki Platform?</h2>
+      <div class="features-grid">
+        <div class="feature-item" *ngFor="let feature of features">
+          <div class="feature-icon">
+            <app-icon [name]="feature.icon" [size]="32"></app-icon>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section" aria-label="Call to Action">
+    <div class="section-container">
+      <h2 class="cta-title">Ready to Get Started?</h2>
+      <p class="cta-description">Join thousands of users who trust Waki Platform for their management needs</p>
+      <button class="btn-primary btn-large" (click)="navigateToService('/family-wallet/login')">
+        Start Your Journey
+        <app-icon name="arrow-right" [size]="20"></app-icon>
+      </button>
+    </div>
+  </section>
+</main>
+

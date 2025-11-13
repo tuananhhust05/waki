@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2>Products</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <h5>Add Product</h5>
+        <form (ngSubmit)="addProduct()">
+          <div class="mb-3">
+            <input type="text" class="form-control" [(ngModel)]="newProduct.name" name="name" placeholder="Product Name" required>
+          </div>
+          <div class="mb-3">
+            <input type="number" class="form-control" [(ngModel)]="newProduct.price" name="price" placeholder="Price" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <h5>Product List</h5>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let product of products">
+            {{ product.name }} - {{ product.price }} SAR (Stock: {{ product.stock_quantity }})
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+

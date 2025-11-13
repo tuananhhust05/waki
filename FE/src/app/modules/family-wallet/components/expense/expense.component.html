@@ -1,0 +1,83 @@
+<div class="expense-container">
+  <div class="expense-card" *ngIf="wallet">
+    <div class="expense-header">
+      <h1>Create Expense</h1>
+      <div class="wallet-balance">
+        <span class="label">Current Balance</span>
+        <span class="amount">{{ wallet.balance | number:'1.2-2' }} {{ wallet.currency }}</span>
+      </div>
+    </div>
+
+    <div class="expense-body">
+      <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+      <form (ngSubmit)="createExpense()">
+        <div class="form-group">
+          <label>Amount ({{ wallet.currency }})</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="amount"
+            name="amount"
+            placeholder="0.00"
+            min="0.01"
+            step="0.01"
+            [max]="wallet.balance"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Merchant (Optional)</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="merchant"
+            name="merchant"
+            placeholder="e.g., Starbucks"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Description (Optional)</label>
+          <textarea
+            class="form-control"
+            [(ngModel)]="description"
+            name="description"
+            placeholder="What is this expense for?"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-control" [(ngModel)]="category" name="category">
+            <option value="expense">General Expense</option>
+            <option value="food">Food & Dining</option>
+            <option value="shopping">Shopping</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="transport">Transport</option>
+            <option value="education">Education</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="loading || !amount">
+            <span *ngIf="!loading">Create Expense</span>
+            <span *ngIf="loading">Processing...</span>
+          </button>
+          <button type="button" class="btn btn-secondary" routerLink="/family-wallet/wallet">Back to Wallet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="expense-card" *ngIf="!wallet">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading wallet information...</p>
+    </div>
+  </div>
+</div>

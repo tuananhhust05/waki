@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <div class="card mt-4" *ngIf="insights">
+    <h5>AI Insights</h5>
+    <p>Total Transactions: {{ insights.total_transactions }}</p>
+    <p>Total Spent: {{ insights.total_spent }} SAR</p>
+    <p>Anomalies Detected: {{ insights.anomalies_detected }}</p>
+    <ul>
+      <li *ngFor="let insight of insights.insights">{{ insight }}</li>
+    </ul>
+  </div>
+</div>
+
+

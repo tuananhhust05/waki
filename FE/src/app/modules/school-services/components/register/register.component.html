@@ -1,0 +1,49 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Create School Account</h1>
+      <p>Register your school administrator profile to begin managing students.</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" class="form-control" [(ngModel)]="full_name" name="full_name" placeholder="e.g., Olivia Thompson" required />
+      </div>
+
+      <div class="form-group">
+        <label>Work Email</label>
+        <input type="email" class="form-control" [(ngModel)]="email" name="email" placeholder="admin@school.edu" required />
+      </div>
+
+      <div class="form-group">
+        <label>Phone (Optional)</label>
+        <input type="tel" class="form-control" [(ngModel)]="phone" name="phone" placeholder="e.g., +1 555 123 4567" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" [(ngModel)]="password" name="password" placeholder="Create a secure password" required />
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" class="form-control" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Re-enter password" required />
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="message" class="alert alert-success">{{ message }}</div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="!loading">Create Account</span>
+        <span *ngIf="loading">Creating...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Already have an account?</span>
+      <a routerLink="/school-services/login">Sign In</a>
+    </div>
+  </div>
+</div>

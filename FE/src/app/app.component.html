@@ -1,0 +1,146 @@
+<!-- Header - Apple style -->
+<header class="app-header">
+  <div class="header-container">
+    <a class="logo" routerLink="/home">
+      <span class="logo-text">Waki</span>
+    </a>
+
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">
+            Home
+          </a>
+        </li>
+        <li class="nav-item has-dropdown">
+          <a class="nav-link" (click)="toggleServicesMenu()" [class.active]="servicesMenuOpen">
+            Services
+            <app-icon name="arrow-right" [size]="14" [className]="servicesMenuOpen ? 'rotated' : ''"></app-icon>
+          </a>
+          <div class="dropdown" [class.show]="servicesMenuOpen">
+            <div class="dropdown-content">
+              <a routerLink="/family-wallet/login" class="dropdown-link" (click)="closeMobileMenu()">
+                <app-icon name="wallet" [size]="20"></app-icon>
+                <div class="dropdown-text">
+                  <div class="dropdown-title">Family Wallet</div>
+                  <div class="dropdown-desc">Manage family finances</div>
+                </div>
+              </a>
+              <a routerLink="/pos-management/login" class="dropdown-link" (click)="closeMobileMenu()">
+                <app-icon name="shopping-cart" [size]="20"></app-icon>
+                <div class="dropdown-text">
+                  <div class="dropdown-title">POS Management</div>
+                  <div class="dropdown-desc">Point of sale system</div>
+                </div>
+              </a>
+              <a routerLink="/ai-technologies/login" class="dropdown-link" (click)="closeMobileMenu()">
+                <app-icon name="ai" [size]="20"></app-icon>
+                <div class="dropdown-text">
+                  <div class="dropdown-title">AI Technologies</div>
+                  <div class="dropdown-desc">AI solutions</div>
+                </div>
+              </a>
+              <a routerLink="/school-services/login" class="dropdown-link" (click)="closeMobileMenu()">
+                <app-icon name="school" [size]="20"></app-icon>
+                <div class="dropdown-text">
+                  <div class="dropdown-title">School Services</div>
+                  <div class="dropdown-desc">School management</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about" (click)="scrollToSection('about'); closeMobileMenu()">
+            About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contact" (click)="scrollToSection('contact'); closeMobileMenu()">
+            Contact
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button 
+      class="menu-toggle" 
+      type="button"
+      (click)="toggleMobileMenu()"
+      [attr.aria-expanded]="mobileMenuOpen"
+      aria-label="Toggle menu">
+      <span class="menu-icon" [class.active]="mobileMenuOpen"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.active]="mobileMenuOpen">
+    <nav class="mobile-nav">
+      <a class="mobile-link" routerLink="/home" routerLinkActive="active" (click)="closeMobileMenu()">Home</a>
+      <div class="mobile-dropdown">
+        <a class="mobile-link" (click)="toggleServicesMenu()">
+          Services
+          <app-icon name="arrow-right" [size]="14" [className]="servicesMenuOpen ? 'rotated' : ''"></app-icon>
+        </a>
+        <div class="mobile-dropdown-content" [class.show]="servicesMenuOpen">
+          <a routerLink="/family-wallet/login" class="mobile-sublink" (click)="closeMobileMenu()">
+            <app-icon name="wallet" [size]="18"></app-icon>
+            Family Wallet
+          </a>
+          <a routerLink="/pos-management/login" class="mobile-sublink" (click)="closeMobileMenu()">
+            <app-icon name="shopping-cart" [size]="18"></app-icon>
+            POS Management
+          </a>
+          <a routerLink="/ai-technologies/login" class="mobile-sublink" (click)="closeMobileMenu()">
+            <app-icon name="ai" [size]="18"></app-icon>
+            AI Technologies
+          </a>
+          <a routerLink="/school-services/login" class="mobile-sublink" (click)="closeMobileMenu()">
+            <app-icon name="school" [size]="18"></app-icon>
+            School Services
+          </a>
+        </div>
+      </div>
+      <a class="mobile-link" href="#about" (click)="scrollToSection('about'); closeMobileMenu()">About</a>
+      <a class="mobile-link" href="#contact" (click)="scrollToSection('contact'); closeMobileMenu()">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer - Apple style -->
+<footer class="app-footer">
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 class="footer-title">Waki Platform</h4>
+        <p class="footer-description">Integrated smart management services platform</p>
+      </div>
+      <div class="footer-section">
+        <h5 class="footer-heading">Services</h5>
+        <ul class="footer-links">
+          <li><a routerLink="/family-wallet/login">Family Wallet</a></li>
+          <li><a routerLink="/pos-management/login">POS Management</a></li>
+          <li><a routerLink="/ai-technologies/login">AI Technologies</a></li>
+          <li><a routerLink="/school-services/login">School Services</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h5 class="footer-heading">Company</h5>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-text">&copy; 2024 Waki Platform. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+
