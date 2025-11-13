@@ -69,10 +69,10 @@ Sau khi Docker Compose khởi động xong:
   - School Services: http://localhost:4200/school-services
 
 - **Backend API**: http://localhost:3301
-  - Family Wallet: http://localhost:3301/api/family-wallet
-  - POS Management: http://localhost:3301/api/pos-management
-  - AI Technologies: http://localhost:3301/api/ai-technologies
-  - School Services: http://localhost:3301/api/school-services
+  - Family Wallet: https://waki.autos/api/family-wallet
+  - POS Management: https://waki.autos/api/pos-management
+  - AI Technologies: https://waki.autos/api/ai-technologies
+  - School Services: https://waki.autos/api/school-services
 
 - **Databases** (MongoDB):
   - Family Wallet DB: mongodb://admin:admin123@localhost:27020/family_wallet_db?authSource=admin

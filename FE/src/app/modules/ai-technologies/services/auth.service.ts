@@ -4,7 +4,7 @@ import { Observable, tap } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  private apiUrl = 'http://localhost:3301/api/ai-technologies';
+  private apiUrl = 'https://waki.autos/api/ai-technologies';
   private tokenKey = 'ai_token';
 
   constructor(private http: HttpClient) {}

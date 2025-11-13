@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3301/api/family-wallet';
+  private apiUrl = 'https://waki.autos/api/family-wallet';
   private tokenKey = 'family_wallet_token';
   private userKey = 'family_wallet_user';
 

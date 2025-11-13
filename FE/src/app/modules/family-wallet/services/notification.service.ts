@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://localhost:3301/api/family-wallet/notifications';
+  private apiUrl = 'https://waki.autos/api/family-wallet/notifications';
 
   constructor(
     private http: HttpClient,

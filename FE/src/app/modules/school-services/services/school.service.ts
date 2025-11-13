@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 @Injectable()
 export class SchoolService {
-  private apiUrl = 'http://localhost:3301/api/school-services';
+  private apiUrl = 'https://waki.autos/api/school-services';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

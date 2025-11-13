@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class WalletService {
-  private apiUrl = 'http://localhost:3301/api/family-wallet';
+  private apiUrl = 'https://waki.autos/api/family-wallet';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
