@@ -69,20 +69,20 @@ services:
     restart: unless-stopped
 
   # Frontend - Single Angular project with modules
-  frontend:
-    build:
-      context: ./FE
-      dockerfile: Dockerfile
-    container_name: waki-frontend
-    ports:
-      - "4200:4200"
-    depends_on:
-      - backend
-    networks:
-      - waki-network
-    volumes:
-      - ./FE:/app
-      - /app/node_modules
+  # frontend:
+  #   build:
+  #     context: ./FE
+  #     dockerfile: Dockerfile
+  #   container_name: waki-frontend
+  #   ports:
+  #     - "4200:4200"
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - waki-network
+  #   volumes:
+  #     - ./FE:/app
+  #     - /app/node_modules
 
 networks:
   waki-network:
