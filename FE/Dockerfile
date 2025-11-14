@@ -26,13 +26,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Install serve package globally
-RUN npm install -g serve
+# Install http-server (simpler, no host header checks)
+RUN npm install -g http-server
 
 # Copy built files from builder stage
 COPY --from=builder /app/dist/waki-frontend/browser ./dist
 
 EXPOSE 4200
 
-# Serve static files on all interfaces
-CMD ["serve", "-s", "dist", "-l", "4200", "--no-clipboard", "--no-open"]
+# Serve static files - disable host header check
+CMD ["http-server", "dist", "-p", "4200", "-a", "0.0.0.0", "--cors", "-c-1"]

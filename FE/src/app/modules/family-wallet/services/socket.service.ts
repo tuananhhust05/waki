@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class SocketService {
   private socket: Socket | null = null;
-  private readonly socketUrl = 'http://localhost:3301';
+  private readonly socketUrl = 'https://waki.autos';
 
   constructor(private authService: AuthService) {}
 

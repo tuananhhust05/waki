@@ -80,9 +80,8 @@ services:
       - backend
     networks:
       - waki-network
-    volumes:
-      - ./FE:/app
-      - /app/node_modules
+    # No volume mount for production - use built static files
+    restart: unless-stopped
 
 networks:
   waki-network:
