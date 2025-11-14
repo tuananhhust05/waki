@@ -29,8 +29,8 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Install http-server (simpler, no host header checks)
-RUN npm install -g http-server
+# Install serve (supports SPA fallback with -s flag)
+RUN npm install -g serve
 
 # Copy built files from builder stage
 # Try both possible paths - Angular 17 may output directly to dist/waki-frontend
@@ -38,5 +38,5 @@ COPY --from=builder /app/dist/waki-frontend ./dist
 
 EXPOSE 4200
 
-# Serve static files - disable host header check
-CMD ["http-server", "dist", "-p", "4200", "-a", "0.0.0.0", "--cors", "-c-1"]
+# Serve static files with SPA fallback (all routes -> index.html)
+CMD ["serve", "-s", "dist", "-l", "4200", "--cors"]
