@@ -19,7 +19,8 @@ RUN npm install --legacy-peer-deps || (rm -f package-lock.json && npm install --
 COPY . .
 
 # Build Angular app for production
-RUN npm run build:prod
+# RUN npm run build:prod
+RUN npm run build
 
 # Production stage - Serve static files
 FROM node:22-alpine
@@ -30,9 +31,10 @@ WORKDIR /app
 RUN npm install -g http-server
 
 # Copy built files from builder stage
-COPY --from=builder /app/dist/waki-frontend/browser ./dist
+# COPY --from=builder /app/dist/waki-frontend/browser ./dist
 
 EXPOSE 4200
 
 # Serve static files - disable host header check
-CMD ["http-server", "dist", "-p", "4200", "-a", "0.0.0.0", "--cors", "-c-1"]
+# CMD ["http-server", "dist", "-p", "4200", "-a", "0.0.0.0", "--cors", "-c-1"]
+CMD ["npm", "start"]
