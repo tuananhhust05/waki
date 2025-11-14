@@ -22,7 +22,7 @@ const generateStudentId = () => {
   return `S-${partA}-${partB}`;
 };
 
-const ENGINE_API_URL = process.env.ENGINE_API_URL || 'http://192.168.22.57:9595';
+const ENGINE_API_URL = process.env.ENGINE_API_URL || 'http://54.79.147.183:9595';
 
 const router = express.Router();
 

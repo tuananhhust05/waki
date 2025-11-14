@@ -7,7 +7,7 @@ const getSchoolModel = require('../models/School');
 const getUserModel = require('../models/User');
 const router = express.Router();
 
-const ENGINE_API_URL = process.env.ENGINE_API_URL || 'http://192.168.22.57:9595';
+const ENGINE_API_URL = process.env.ENGINE_API_URL || 'http://54.79.147.183:9595';
 
 const normalizeDate = (date) => {
   const normalized = new Date(date);
