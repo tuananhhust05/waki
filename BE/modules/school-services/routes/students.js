@@ -120,9 +120,26 @@ router.post('/',
 
       // Register face data with engine service (non-blocking)
       if (photo_base64) {
+        // Normalize base64: remove data URL prefix, whitespace, and ensure proper padding
+        let normalizedBase64 = photo_base64;
+        
+        // Remove data URL prefix if present (e.g., "data:image/jpeg;base64,")
+        if (normalizedBase64.includes(',')) {
+          normalizedBase64 = normalizedBase64.split(',')[1];
+        }
+        
+        // Remove all whitespace (spaces, newlines, tabs)
+        normalizedBase64 = normalizedBase64.replace(/\s/g, '');
+        
+        // Add padding if needed (base64 strings must be multiple of 4)
+        const missingPadding = normalizedBase64.length % 4;
+        if (missingPadding) {
+          normalizedBase64 += '='.repeat(4 - missingPadding);
+        }
+        
         axios.post(`${ENGINE_API_URL}/register`, {
           student_id: student._id.toString(),
-          image: photo_base64
+          image: normalizedBase64
         }).catch((err) => {
           console.error('Engine register error:', err.response?.data || err.message);
         });

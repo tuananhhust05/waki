@@ -7,7 +7,7 @@ from insightface.app import FaceAnalysis
 from PIL import Image
 from io import BytesIO
 import tempfile
-
+import traceback
 # ======================
 # Cấu hình hệ thống
 # ======================
@@ -32,9 +32,33 @@ app_insight.prepare(ctx_id=0)  # GPU = 0, CPU = -1
 # Hàm tiện ích
 # ======================
 
+def normalize_base64(base64_str):
+    """Normalize base64 string: remove prefix, whitespace, and ensure proper padding"""
+    if not base64_str:
+        return None
+    
+    # Remove data URL prefix if present (e.g., "data:image/jpeg;base64,")
+    if ',' in base64_str:
+        base64_str = base64_str.split(',')[-1]
+    
+    # Remove all whitespace (spaces, newlines, tabs)
+    base64_str = ''.join(base64_str.split())
+    
+    # Add padding if needed (base64 strings must be multiple of 4)
+    missing_padding = len(base64_str) % 4
+    if missing_padding:
+        base64_str += '=' * (4 - missing_padding)
+    
+    return base64_str
+
 def decode_base64_to_image(base64_str):
     """Chuyển ảnh base64 thành đối tượng PIL.Image"""
-    image_data = base64.b64decode(base64_str)
+    # Normalize base64 string first
+    normalized = normalize_base64(base64_str)
+    if not normalized:
+        raise ValueError("Invalid base64 string")
+    
+    image_data = base64.b64decode(normalized)
     image = Image.open(BytesIO(image_data))
     return image.convert("RGB")
 
@@ -78,6 +102,7 @@ def register_face():
         es.index(index=INDEX_NAME, document=doc)
         return jsonify({"message": "Đăng ký khuôn mặt thành công", "student_id": student_id})
     except Exception as e:
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 # ======================
@@ -124,4 +149,4 @@ def verify_face():
 # Khởi chạy Flask app
 # ======================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=9595)
+    app.run(host="0.0.0.0", debug=True, port=9595)
