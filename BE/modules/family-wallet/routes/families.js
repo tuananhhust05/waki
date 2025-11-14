@@ -36,14 +36,16 @@ router.get('/my-family', authenticateToken, async (req, res) => {
         id: family._id,
         name: family.name,
         parent_name: family.parent_id?.full_name,
-        members: members.map(m => ({
-          id: m.user_id._id,
-          email: m.user_id.email,
-          full_name: m.user_id.full_name,
-          role: m.user_id.role,
-          phone: m.user_id.phone,
-          relationship: m.relationship
-        }))
+        members: members
+          .filter(m => m.user_id != null) // Filter out members with null user_id
+          .map(m => ({
+            id: m.user_id._id,
+            email: m.user_id?.email || null,
+            full_name: m.user_id?.full_name || null,
+            role: m.user_id?.role || null,
+            phone: m.user_id?.phone || null,
+            relationship: m.relationship
+          }))
       }
     });
   } catch (error) {
